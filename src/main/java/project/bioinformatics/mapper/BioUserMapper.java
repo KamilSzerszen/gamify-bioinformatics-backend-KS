@@ -8,7 +8,7 @@ import project.bioinformatics.config.MapperConfig;
 import project.bioinformatics.dto.BioUserLoginRequestDto;
 import project.bioinformatics.dto.BioUserRegisterRequestDto;
 import project.bioinformatics.dto.BioUserResponseDto;
-import project.bioinformatics.model.User;
+import project.bioinformatics.model.BioUser;
 import project.bioinformatics.model.Role;
 
 @Mapper(config = MapperConfig.class, componentModel = "spring")
@@ -18,12 +18,12 @@ public interface BioUserMapper {
     @Mapping(target = "authorities", ignore = true)
     @Mapping(source = "username", target = "username")
     @Mapping(source = "roles", target = "roles")
-    User toBioUser(BioUserRegisterRequestDto bioUserRegisterRequestDto);
+    BioUser toBioUser(BioUserRegisterRequestDto bioUserRegisterRequestDto);
 
     @Mapping(target = "username", expression = "java(bioUser.getUsernameField())")
     @Mapping(target = "roles", expression = "java(mapRolesToRoleNames(bioUser.getRoles()))")
     @Mapping(target = "token", ignore = true)
-    BioUserResponseDto toBioUserResponseDto(User user);
+    BioUserResponseDto toBioUserResponseDto(BioUser bioUser);
 
     @Mapping(source = "email", target = "email")
     @Mapping(source = "password", target = "password")

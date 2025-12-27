@@ -3,6 +3,7 @@ package project.bioinformatics.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import project.bioinformatics.dto.BioUserRegisterRequestDto;
 
@@ -12,6 +13,7 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
 
     @Override
+    @Async("emailExecutor")
     public void sendWelcomeEmail(BioUserRegisterRequestDto user) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(user.getEmail());
@@ -22,6 +24,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @Async("emailExecutor")
     public void sendResetPasswordLink(String email, String link) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
@@ -33,6 +36,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @Async("emailExecutor")
     public void sendChangePasswordEmails(String username, String oldEmail, String newEmail) {
         SimpleMailMessage oldEmailMessage = new SimpleMailMessage();
         oldEmailMessage.setTo(oldEmail);
@@ -55,6 +59,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @Async("emailExecutor")
     public void sendSuccessfulPasswordChangeEmail(String username, String email) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
